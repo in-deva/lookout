@@ -7,6 +7,9 @@
     "lint": "npx eslint . --ext .js",
     "build": "npx tsc"
   },
+	"engines": {
+		"node": "18.0"
+	},
   "dependencies": {
     "@azure/msal-node": "^1.14.2",
     "@microsoft/microsoft-graph-client": "^3.0.2",
