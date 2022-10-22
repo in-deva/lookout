@@ -1,0 +1,73 @@
+<!-- Copyright (c) Microsoft Corporation.
+     Licensed under the MIT License. -->
+
+<!-- <LayoutSnippet> -->
+
+<h1 class="mb-3" style="padding-top: 20px">Calendar</h1>
+<!-- <a href="/calendar/new" class="btn btn-light btn-sm mb-3">New event</a> -->
+
+<form action="/calendar" method="GET" class="bg-light border"  style="padding: 20px">
+	<div class="container">
+	  <div class="row">
+	    <div class="col">
+				<h2>Customers</h2>
+				{{#each customers}}
+					<input type="checkbox" name="customers" value="{{this}}">
+					<label for="customers"> {{this}}</label><br>
+				{{/each}}
+	    </div>
+	    <div class="col">
+				<h2>Jobs</h2>
+				{{#each jobs}}
+					<input type="checkbox" name="jobs" value="{{this}}">
+					<label for="jobs"> {{this}}</label><br>
+				{{/each}}
+	    </div>
+	    <div class="col">
+				<h2>Categories</h2>
+				{{#each categories}}
+					<input type="checkbox" name="categories" value="{{this}}">
+					<label for="categories"> {{this}}</label><br>
+				{{/each}}
+	    </div>
+	  </div>
+	</div>
+<input type="submit" value="Submit">
+</form>
+
+<h2 style="padding-top: 20px">Entries</h2>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th scope="col">Subject</th>
+			<th scope="col">Customer</th>
+			<th scope="col">Job</th>
+			<th scope="col">Duration</th>
+      <th scope="col">Start</th>
+      <th scope="col">End</th>
+			<th scope="col">Categories</th>
+
+    </tr>
+  </thead>
+  <tbody>
+    {{#each events}}
+      <tr>
+        <td>{{this.subject}}</td>
+				<td>{{this.customer}}</td>
+				<td>{{this.job}}</td>
+				<td>{{this.duration}}</td>
+        <td>{{eventDateTime this.start.dateTime}}</td>
+        <td>{{eventDateTime this.end.dateTime}}</td>
+				<td>{{this.categories}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
+
+<h2>Total Duration</h2>
+<span>{{duration}} hours</span>
+
+<p style="padding: 50px">
+
+<!-- </LayoutSnippet> -->
