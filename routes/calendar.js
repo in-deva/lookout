@@ -40,8 +40,8 @@ router.get('/',
       // Get midnight on the start of the current week in the user's timezone,
       // but in UTC. For example, for Pacific Standard Time, the time value would be
       // 07:00:00Z
-      var weekStart = zonedTimeToUtc(dateFns.startOfWeek(new Date()), timeZoneId.valueOf());
-      var weekEnd = dateFns.addDays(weekStart, 7);
+      // var weekStart = zonedTimeToUtc(dateFns.startOfWeek(new Date()), timeZoneId.valueOf());
+      // var weekEnd = dateFns.addDays(weekStart, 7);
       // console.log(`Start: ${dateFns.formatISO(weekStart)}`);
 
       try {
@@ -54,6 +54,8 @@ router.get('/',
           dayjs(new Date(2023, 01, 01, 0, 0, 0)), // hardcoded end date
           user.timeZone
 				)
+				events.value.forEach(ev => {console.log(ev.body)})
+				// console.log(events.value[0].body)
 				// ------------------------------ my code start ------------------------------------ //
 				// pulling unique subjects and categories
 				let subjects = []

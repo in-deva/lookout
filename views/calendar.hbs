@@ -50,6 +50,7 @@
       <th scope="col">Start</th>
       <th scope="col">End</th>
 			<th scope="col">Categories</th>
+			<th scope="col">Content</th>
 
     </tr>
   </thead>
@@ -63,6 +64,7 @@
         <td>{{eventDateTime this.start.dateTime}}</td>
         <td>{{eventDateTime this.end.dateTime}}</td>
 				<td>{{this.categories}}</td>
+				<td>{{this.body.content}}</td>
       </tr>
     {{/each}}
   </tbody>

@@ -22,14 +22,15 @@ module.exports = {
     return client
       .api('/me/calendarview')
       // Add Prefer header to get back times in user's timezone
-      .header('Prefer', `outlook.timezone="${timeZone}"`)
+			.header('Prefer', 'outlook.body-content-type="text"')
+			// .header('Prefer', `outlook.timezone="${timeZone}"`) // !! important?? needs to be in one line
       // Add the begin and end of the calendar window
       .query({
         startDateTime: encodeURIComponent(start),
         endDateTime: encodeURIComponent(end)
       })
       // Get just the properties used by the app
-      .select('subject,organizer,start,end,categories')
+      .select('subject,organizer,start,end,categories,body')
       // Order by start time
       .orderby('start/dateTime')
       // Get at most 50 results
