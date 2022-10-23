@@ -65,9 +65,9 @@ router.get('/',
 					subjects.push(item.subject)
 					categories = [...new Set(categories.concat(item.categories))]
 
-					end = dayjs(item.end.dateTime)
-					start = dayjs(item.start.dateTime)
-					item.duration = end.diff(start, 'hour')
+					// end = dayjs(item.end.dateTime)
+					// start = dayjs(item.start.dateTime)
+					item.duration = dayjs(item.end.dateTime).diff(dayjs(item.start.dateTime), 'hour')
 
 
 
