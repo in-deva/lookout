@@ -50,8 +50,8 @@ router.get('/',
           req.app.locals.msalClient,
           req.session.userId,
           // dateFns.formatISO(weekStart),
-					dayjs(new Date(2022, 01, 01, 0, 0, 0)), // hardcoded start date
-          dayjs(new Date(2023, 01, 01, 0, 0, 0)), // hardcoded end date
+					dayjs(new Date(2022, 1, 1, 0, 0, 0)), // hardcoded start date
+          dayjs(new Date(2023, 1, 1, 0, 0, 0)), // hardcoded end date
           user.timeZone
 				)
 				events.value.forEach(ev => {console.log(ev.body)})
