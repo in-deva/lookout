@@ -50,13 +50,10 @@ router.get('/',
           req.app.locals.msalClient,
           req.session.userId,
           // dateFns.formatISO(weekStart),
-					dateFns.formatISO(new Date(2022, 09, 09, 19, 5, 10)), // hardcoded start date
-          dateFns.formatISO(weekEnd),
+					dayjs(new Date(2022, 01, 01, 0, 0, 0)), // hardcoded start date
+          dayjs(new Date(2023, 01, 01, 0, 0, 0)), // hardcoded end date
           user.timeZone
 				)
-        // Assign the events to the view parameters
-        // params.events = events.value;
-
 				// ------------------------------ my code start ------------------------------------ //
 				// pulling unique subjects and categories
 				let subjects = []
@@ -64,14 +61,7 @@ router.get('/',
 				events.value.forEach((item, i) => {
 					subjects.push(item.subject)
 					categories = [...new Set(categories.concat(item.categories))]
-
-					// end = dayjs(item.end.dateTime)
-					// start = dayjs(item.start.dateTime)
-					item.duration = dayjs(item.end.dateTime).diff(dayjs(item.start.dateTime), 'hour')
-
-
-
-
+					item.duration = Number(dayjs(item.end.dateTime).diff(dayjs(item.start.dateTime), 'hour', true).toFixed(1))
 					item.customer = item.subject.split(' - ')[0]
 					item.job = item.subject.split(' - ')[1]
 				})
