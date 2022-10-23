@@ -1,5 +1,5 @@
 {
-  "name": "graph-sample",
+  "name": "lookout",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -8,7 +8,8 @@
     "build": "npx tsc"
   },
 	"engines": {
-		"node": "16.15.1"
+		"node": "16.15.1",
+		"npm": "8.13.2"
 	},
   "dependencies": {
     "@azure/msal-node": "^1.14.2",
