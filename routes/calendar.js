@@ -9,8 +9,13 @@ const iana = require('windows-iana');
 const { body, validationResult } = require('express-validator');
 const validator = require('validator');
 
+const dayjs = require('dayjs')
+//import dayjs from 'dayjs' // ES 2015
+dayjs().format()
+
 var parseISO = require('date-fns/parseISO')
 var differenceInHours = require('date-fns/differenceInHours') // mine
+
 
 /* GET /calendar */
 // <GetRouteSnippet>
@@ -59,9 +64,14 @@ router.get('/',
 				events.value.forEach((item, i) => {
 					subjects.push(item.subject)
 					categories = [...new Set(categories.concat(item.categories))]
-					end = parseISO(item.end.dateTime)
-					start = parseISO(item.start.dateTime)
-					item.duration = differenceInHours(end, start)
+
+					end = dayjs(item.end.dateTime)
+					start = dayjs(item.start.dateTime)
+					item.duration = end.diff(start, 'hour')
+
+
+
+
 					item.customer = item.subject.split(' - ')[0]
 					item.job = item.subject.split(' - ')[1]
 				})
