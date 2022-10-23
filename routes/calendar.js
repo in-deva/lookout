@@ -59,7 +59,9 @@ router.get('/',
 				events.value.forEach((item, i) => {
 					subjects.push(item.subject)
 					categories = [...new Set(categories.concat(item.categories))]
-					item.duration = differenceInHours(parseISO(item.end.dateTime), parseISO(item.start.dateTime))
+					end = parseISO(item.end.dateTime)
+					start = parseISO(item.start.dateTime)
+					item.duration = differenceInHours(end, start)
 					item.customer = item.subject.split(' - ')[0]
 					item.job = item.subject.split(' - ')[1]
 				})
