@@ -20,21 +20,21 @@ router.get('/',
         const events = await graph.getCalendarView(
           req.app.locals.msalClient,
           req.session.userId,
-          // dateFns.formatISO(weekStart),
 					dayjs(new Date(2022, 1, 1, 0, 0, 0)), // hardcoded start date
           dayjs(new Date(2023, 1, 1, 0, 0, 0)), // hardcoded end date
 				)
 
-				// Filters - pulling unique subjects and categories from ALL events
+				// Processing events.value
 				let subjects = []
 				let categories = []
 				events.value.forEach((item, i) => {
 					subjects.push(item.subject)
-					categories = [...new Set(categories.concat(item.categories))].sort()
-					item.duration = Number(dayjs(item.end.dateTime).diff(dayjs(item.start.dateTime), 'hour', true).toFixed(1))
 					item.customer = item.subject.split(' - ')[0]
 					item.job = item.subject.split(' - ')[1]
+					categories = [...new Set(categories.concat(item.categories))].sort()
+					item.duration = Number(dayjs(item.end.dateTime).diff(dayjs(item.start.dateTime), 'hour', true).toFixed(1))
 				})
+				// Filters - pulling unique subjects and categories from ALL events
 				subjects = [...new Set(subjects)].filter(title => title.includes('-')) // filtered to only those with a '-'
 				const customers = [...new Set(subjects.map(subject => subject.split(' - ')[0]))].sort()
 				const jobs = [...new Set(subjects.map(subject => subject.split(' - ')[1]))].sort()
