@@ -34,10 +34,12 @@ router.get('/',
 					categories = [...new Set(categories.concat(item.categories))].sort()
 					item.duration = Number(dayjs(item.end.dateTime).diff(dayjs(item.start.dateTime), 'hour', true).toFixed(1))
 				})
+				
 				// Filters - pulling unique subjects and categories from ALL events
 				subjects = [...new Set(subjects)].filter(title => title.includes('-')) // filtered to only those with a '-'
 				const customers = [...new Set(subjects.map(subject => subject.split(' - ')[0]))].sort()
 				const jobs = [...new Set(subjects.map(subject => subject.split(' - ')[1]))].sort()
+
 				// processing filters from the query (if exists)
 					// note: categories ADDs to the filters, not checks if all filters are met by an events categories
 				if (Object.entries(req.query).length) {
@@ -70,8 +72,10 @@ router.get('/',
 				params.customers = customers
 				params.jobs = jobs
 				params.categories = categories
-					// Other
+					// Events overview
 				params.duration = params.events.map(ev => ev.duration).reduce((t, i) => t + i)
+				params.startDate = String(dayjs(params.events[0].start.dateTime).format('DD/MM/YYYY'))
+				params.latestDate = String(dayjs(params.events[params.events.length-1].end.dateTime).format('DD/MM/YYYY'))
 				// params.events defined above
 
       } catch (err) {

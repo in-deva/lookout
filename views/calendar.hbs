@@ -1,10 +1,4 @@
-<!-- Copyright (c) Microsoft Corporation.
-     Licensed under the MIT License. -->
-
-<!-- <LayoutSnippet> -->
-
 <h1 class="mb-3" style="padding-top: 20px">Calendar</h1>
-<!-- <a href="/calendar/new" class="btn btn-light btn-sm mb-3">New event</a> -->
 
 <form action="/calendar" method="GET" class="bg-light border"  style="padding: 20px">
 	<div class="container">
@@ -35,11 +29,15 @@
 <input type="submit" value="Submit">
 </form>
 
-<h2 style="padding-top: 20px">Total Duration</h2>
-<span>{{duration}} hours</span>
+<h2 style="padding-top: 20px">Overview</h2>
+<h3 style="padding-top: 20px">Total Duration</h3>
+	<span>{{duration}} hours</span>
+<h3 style="padding-top: 20px">Start Date</h3>
+	<span>{{startDate}}</span>
+<h3 style="padding-top: 20px">Latest Date</h3>
+	<span>{{startDate}}</span>
 
 <h2 style="padding-top: 20px">Entries</h2>
-
 <table class="table">
   <thead>
     <tr>
@@ -51,7 +49,6 @@
       <th scope="col">End</th>
 			<th scope="col">Categories</th>
 			<th scope="col">Content</th>
-
     </tr>
   </thead>
   <tbody>
@@ -72,4 +69,4 @@
 
 <p style="padding: 50px">
 
-<!-- </LayoutSnippet> -->
+<!-- <a href="/calendar/new" class="btn btn-light btn-sm mb-3">New event</a> -->
