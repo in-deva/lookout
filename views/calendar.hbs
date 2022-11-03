@@ -35,7 +35,7 @@
 <h3 style="padding-top: 20px">Start Date</h3>
 	<span>{{startDate}}</span>
 <h3 style="padding-top: 20px">Latest Date</h3>
-	<span>{{startDate}}</span>
+	<span>{{latestDate}}</span>
 
 <h2 style="padding-top: 20px">Entries</h2>
 <table class="table">
@@ -58,8 +58,8 @@
 				<td>{{this.customer}}</td>
 				<td>{{this.job}}</td>
 				<td>{{this.duration}}</td>
-        <td>{{eventDateTime this.start.dateTime}}</td>
-        <td>{{eventDateTime this.end.dateTime}}</td>
+        <td>{{this.start.dateFormatted}}</td>
+        <td>{{this.end.dateFormatted}}</td>
 				<td>{{this.categories}}</td>
 				<td>{{this.body.content}}</td>
       </tr>

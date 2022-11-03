@@ -33,8 +33,10 @@ router.get('/',
 					item.job = item.subject.split(' - ')[1]
 					categories = [...new Set(categories.concat(item.categories))].sort()
 					item.duration = Number(dayjs(item.end.dateTime).diff(dayjs(item.start.dateTime), 'hour', true).toFixed(1))
+					item.start.dateFormatted = String(dayjs(item.start.dateTime).format('DD/MM/YYYY HH:mm'))
+					item.end.dateFormatted = String(dayjs(item.end.dateTime).format('DD/MM/YYYY HH:mm'))
 				})
-				
+
 				// Filters - pulling unique subjects and categories from ALL events
 				subjects = [...new Set(subjects)].filter(title => title.includes('-')) // filtered to only those with a '-'
 				const customers = [...new Set(subjects.map(subject => subject.split(' - ')[0]))].sort()
@@ -74,8 +76,8 @@ router.get('/',
 				params.categories = categories
 					// Events overview
 				params.duration = params.events.map(ev => ev.duration).reduce((t, i) => t + i)
-				params.startDate = String(dayjs(params.events[0].start.dateTime).format('DD/MM/YYYY'))
-				params.latestDate = String(dayjs(params.events[params.events.length-1].end.dateTime).format('DD/MM/YYYY'))
+				params.startDate = String(dayjs(params.events[0].start.dateTime).format('DD/MM/YY'))
+				params.latestDate = String(dayjs(params.events[params.events.length-1].end.dateTime).format('DD/MM/YY'))
 				// params.events defined above
 
       } catch (err) {
