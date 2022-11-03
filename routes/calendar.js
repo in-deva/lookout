@@ -30,14 +30,14 @@ router.get('/',
 				let categories = []
 				events.value.forEach((item, i) => {
 					subjects.push(item.subject)
-					categories = [...new Set(categories.concat(item.categories))]
+					categories = [...new Set(categories.concat(item.categories))].sort()
 					item.duration = Number(dayjs(item.end.dateTime).diff(dayjs(item.start.dateTime), 'hour', true).toFixed(1))
 					item.customer = item.subject.split(' - ')[0]
 					item.job = item.subject.split(' - ')[1]
 				})
 				subjects = [...new Set(subjects)].filter(title => title.includes('-')) // filtered to only those with a '-'
-				const customers = [...new Set(subjects.map(subject => subject.split(' - ')[0]))]
-				const jobs = [...new Set(subjects.map(subject => subject.split(' - ')[1]))]
+				const customers = [...new Set(subjects.map(subject => subject.split(' - ')[0]))].sort()
+				const jobs = [...new Set(subjects.map(subject => subject.split(' - ')[1]))].sort()
 				// processing filters from the query (if exists)
 					// note: categories ADDs to the filters, not checks if all filters are met by an events categories
 				if (Object.entries(req.query).length) {
