@@ -1,24 +1,11 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 const router = require('express-promise-router').default();
 const graph = require('../graph.js');
-const dateFns = require('date-fns');
-const zonedTimeToUtc = require('date-fns-tz/zonedTimeToUtc');
-const iana = require('windows-iana');
 const { body, validationResult } = require('express-validator');
 const validator = require('validator');
-
 const dayjs = require('dayjs')
-//import dayjs from 'dayjs' // ES 2015
 dayjs().format()
 
-var parseISO = require('date-fns/parseISO')
-var differenceInHours = require('date-fns/differenceInHours') // mine
-
-
-/* GET /calendar */
-// <GetRouteSnippet>
+// GET /calendar
 router.get('/',
   async function(req, res) {
     if (!req.session.userId) {
@@ -27,23 +14,7 @@ router.get('/',
     } else {
       const params = {
         active: { calendar: true }
-      };
-
-      // Get the user
-      const user = req.app.locals.users[req.session.userId];
-      // Convert user's Windows time zone ("Pacific Standard Time")
-      // to IANA format ("America/Los_Angeles")
-      const timeZoneId = iana.findIana(user.timeZone)[0];
-      // console.log(`Time zone: ${timeZoneId.valueOf()}`);
-
-      // Calculate the start and end of the current week
-      // Get midnight on the start of the current week in the user's timezone,
-      // but in UTC. For example, for Pacific Standard Time, the time value would be
-      // 07:00:00Z
-      // var weekStart = zonedTimeToUtc(dateFns.startOfWeek(new Date()), timeZoneId.valueOf());
-      // var weekEnd = dateFns.addDays(weekStart, 7);
-      // console.log(`Start: ${dateFns.formatISO(weekStart)}`);
-
+      }
       try {
         // Get the events
         const events = await graph.getCalendarView(
@@ -52,12 +23,9 @@ router.get('/',
           // dateFns.formatISO(weekStart),
 					dayjs(new Date(2022, 1, 1, 0, 0, 0)), // hardcoded start date
           dayjs(new Date(2023, 1, 1, 0, 0, 0)), // hardcoded end date
-          user.timeZone
 				)
-				events.value.forEach(ev => {console.log(ev.body)})
-				// console.log(events.value[0].body)
-				// ------------------------------ my code start ------------------------------------ //
-				// pulling unique subjects and categories
+
+				// Filters - pulling unique subjects and categories from ALL events
 				let subjects = []
 				let categories = []
 				events.value.forEach((item, i) => {
@@ -70,7 +38,8 @@ router.get('/',
 				subjects = [...new Set(subjects)].filter(title => title.includes('-')) // filtered to only those with a '-'
 				const customers = [...new Set(subjects.map(subject => subject.split(' - ')[0]))]
 				const jobs = [...new Set(subjects.map(subject => subject.split(' - ')[1]))]
-				// processing filters from the query // note: categories ADDs to the filters, not checks if all filters are met by an events categories
+				// processing filters from the query (if exists)
+					// note: categories ADDs to the filters, not checks if all filters are met by an events categories
 				if (Object.entries(req.query).length) {
 					let evFilterCategories = []
 					let evFilterCustomers = []
@@ -88,19 +57,22 @@ router.get('/',
 					evFilterCategories = [...new Set(evFilterCategories)]
 					evFilterCustomers = [...new Set(evFilterCustomers)]
 					evFilterJobs = [...new Set(evFilterJobs)]
-					// setting params.events to the events that are in all the filters
+					// Filtering params.events according to selection
 					let evFiltered = events.value
 					if (req.query.jobs) {evFiltered = evFiltered.filter(ev => evFilterJobs.includes(ev))}
 					if (req.query.customers) {evFiltered = evFiltered.filter(ev => evFilterCustomers.includes(ev))}
 					if (req.query.categories) {evFiltered = evFiltered.filter(ev => evFilterCategories.includes(ev))}
 					params.events = evFiltered
 				} else params.events = events.value
-				// parsing data to the calendar template
+
+				// Parsing data to the calendar template
+					// Filters
 				params.customers = customers
 				params.jobs = jobs
 				params.categories = categories
+					// Other
 				params.duration = params.events.map(ev => ev.duration).reduce((t, i) => t + i)
-				// ------------------------------ my code end ------------------------------------ //
+				// params.events defined above
 
       } catch (err) {
 				console.log('error')
@@ -109,14 +81,13 @@ router.get('/',
           debug: JSON.stringify(err, Object.getOwnPropertyNames(err))
         });
       }
-
       res.render('calendar', params);
     }
   }
-);
-// </GetRouteSnippet>
+)
 
-// <GetEventFormSnippet>
+// ------------------------------ get calendar end *untouched below* ------------------------------------ //
+
 /* GET /calendar/new */
 router.get('/new',
   function(req, res) {
