@@ -23,6 +23,22 @@ module.exports = {
 	},
 		// </My Tasks snippet>
 
+		// <My Tasks/jobs snippet>
+		getTaskJobsList: async function(msalClient, userId) {
+			const client = getAuthenticatedClient(msalClient, userId);
+			return client
+			.api('/me/todo/lists/AQMkADAwATZiZmYAZC05NTQyLTQyNjgtMDACLTAwCgAuAAADOg3u_1kF0E_GfY7316p2LAEAmccvre8LXkSmfOcykUafugAFVGA_RwAAAA==/tasks')
+			// .header('Prefer', 'outlook.body-content-type="text"')
+			// .query({
+				// 	// startDateTime: encodeURIComponent(start),
+				// 	// endDateTime: encodeURIComponent(end)
+				// })
+				// .select('subject,organizer,start,end,categories,body')
+				.top(1000)
+				.get();
+		},
+			// </My Tasks/jobs snippet>
+
 		// ------------------------------------------------------------------------ //
 
   getUserDetails: async function(msalClient, userId) {
