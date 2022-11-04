@@ -35,6 +35,7 @@ router.get('/',
 					item.duration = Number(dayjs(item.end.dateTime).diff(dayjs(item.start.dateTime), 'hour', true).toFixed(1))
 					item.start.dateFormatted = String(dayjs(item.start.dateTime).format('DD/MM/YYYY HH:mm'))
 					item.end.dateFormatted = String(dayjs(item.end.dateTime).format('DD/MM/YYYY HH:mm'))
+					item.body.content = item.body.content.split('------------')[0]
 				})
 
 				// Filters - pulling unique subjects and categories from ALL events
