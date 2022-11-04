@@ -84,13 +84,19 @@ router.get('/',
 					let evFilterCategories = []
 					let evFilterCustomers = []
 					let evFilterJobs = []
+					let evFilterStatuses = []
+
+					console.log(req.query.statuses)
+
 					// replace with normal if statements
 					typeof req.query.categories == 'string' ? req.query.categories = [req.query.categories] : undefined
 					typeof req.query.customers == 'string' ? req.query.customers = [req.query.customers] : undefined
 					typeof req.query.jobs == 'string' ? req.query.jobs = [req.query.jobs] : undefined
+					typeof req.query.statuses == 'string' ? req.query.statuses = [req.query.statuses] : undefined
 					events.value.forEach(ev => {
 						if (req.query.customers && req.query.customers.includes(ev.customer)) {evFilterCustomers.push(ev)}
 						if (req.query.jobs && req.query.jobs.includes(ev.job)) {evFilterJobs.push(ev)}
+						if (req.query.statuses && req.query.statuses.includes(ev.currentStatus)) {evFilterStatuses.push(ev)}
 						ev.categories.forEach(category => {
 							if (req.query.categories && req.query.categories.includes(category)) {evFilterCategories.push(ev)}
 						})
@@ -98,19 +104,24 @@ router.get('/',
 					evFilterCategories = [...new Set(evFilterCategories)]
 					evFilterCustomers = [...new Set(evFilterCustomers)]
 					evFilterJobs = [...new Set(evFilterJobs)]
+					evFilterStatuses = [...new Set(evFilterStatuses)]
 					// Filtering params.events according to selection
 					let evFiltered = events.value
 					if (req.query.jobs) {evFiltered = evFiltered.filter(ev => evFilterJobs.includes(ev))}
 					if (req.query.customers) {evFiltered = evFiltered.filter(ev => evFilterCustomers.includes(ev))}
 					if (req.query.categories) {evFiltered = evFiltered.filter(ev => evFilterCategories.includes(ev))}
+					if (req.query.statuses) {evFiltered = evFiltered.filter(ev => evFilterStatuses.includes(ev))}
 					params.events = evFiltered
 					// allFilters in one array
 					let allFilters = []
 					if (req.query.jobs) {req.query.jobs.forEach(filter => allFilters.push(filter))}
 					if (req.query.customers) {req.query.customers.forEach(filter => allFilters.push(filter))}
 					if (req.query.categories) {req.query.categories.forEach(filter => allFilters.push(filter))}
+					if (req.query.statuses) {req.query.statuses.forEach(filter => allFilters.push(filter))}
 					params.allFilters = allFilters
 				} else params.events = events.value
+
+				console.log('here now')
 
 				// console.log('is the error above here orr')
 				// Parsing data to the calendar template

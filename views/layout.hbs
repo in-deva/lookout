@@ -32,6 +32,10 @@
               <li class="nav-item" data-turbolinks="false">
                 <a href="/calendar" class="nav-link{{#if active.calendar}} active{{/if}}">Calendar</a>
               </li>
+							<li class="nav-item" data-turbolinks="false">
+								<a href="/tasks/jobs" class="nav-link{{#if active.jobs}} active{{/if}}">Jobs</a>
+								<!-- above 'active' status will need tieing to jobs being the active one -->
+							</li>
             {{/if}}
           </ul>
             {{#if user}}
