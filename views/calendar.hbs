@@ -6,9 +6,10 @@
 {{/each}}
 
 {{#each jobsList}}
-	<h5>{{this.title}}</h5>
+	<h5>{{this.title}}</h2>
 	<p>{{this.status}}</p>
 {{/each}}
+
 
 
 <h2 class="mb-3">Filters</h2>
@@ -23,6 +24,11 @@
 				{{/each}}
 	    </div>
 	    <div class="col">
+				<h2 class="mb-3">Statuses</h2>
+				{{#each statuses}}
+					<input type="checkbox" name="customers" value="{{this}}">
+					<label for="customers"> {{this}}</label><br>
+				{{/each}}
 				<h2>Jobs</h2>
 				{{#each jobs}}
 					<input type="checkbox" name="jobs" value="{{this}}">

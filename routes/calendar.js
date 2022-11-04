@@ -10,7 +10,6 @@ let getTaskJobsList = async function(req, res) {
 		req.app.locals.msalClient,
 		req.session.userId
 	)
-	// console.log('hello from /tasks/jobs');
 	let jobs = []
 	tasks.value.forEach(task => {
 		jobs.push({
@@ -37,6 +36,9 @@ router.get('/',
 
 				// Get jobs tasks
 				let jobsList = await getTaskJobsList(req, res)
+				let statuses = []
+				jobsList.forEach(job => {statuses.push(job.status)})
+				params.statuses = [...new Set(statuses)]
 				params.jobsList = jobsList
 
         // Get the events
@@ -63,6 +65,12 @@ router.get('/',
 						let status = item.body.content.split('Status:')[1].split('Percent')[0].trim()
 					}
 					item.body.content = item.body.content.split('------------')[0]
+					// Matching event items to job in jobs list to attach current status
+					jobsList.forEach(job => {if (item.subject = job.title) {
+						item.currentStatus = job.status
+						item.jobBody = job.body.content
+						}
+					}) //could push more info here (categories & body - body pulled but unused)
 				})
 
 				// Filters - pulling unique subjects and categories from ALL events
@@ -111,6 +119,8 @@ router.get('/',
 				params.jobs = jobs
 				params.categories = categories
 				// params.allFilters = req.query.categories.concat(req.query.customers, req.query.jobs) (defined above)
+				// params.jobsList // defined above (from tasks/job list - effectively same as 'jobs', could maybe remove)
+				// params.statuses = defined above
 					// Events overview
 				params.duration = params.events.map(ev => ev.duration).reduce((t, i) => t + i)
 				params.startDate = String(dayjs(params.events[0].start.dateTime).format('DD/MM/YY'))
