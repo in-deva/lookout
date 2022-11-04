@@ -5,6 +5,24 @@ const validator = require('validator');
 const dayjs = require('dayjs')
 dayjs().format()
 
+let getTaskJobsList = async function(req, res) {
+	const tasks = await graph.getTaskJobsList(
+		req.app.locals.msalClient,
+		req.session.userId
+	)
+	// console.log('hello from /tasks/jobs');
+	let jobs = []
+	tasks.value.forEach(task => {
+		jobs.push({
+			title: task.title,
+			status: task.status,
+			categories: task.categories,
+			body: task.body
+		})
+	})
+	return jobs
+}
+
 // GET /calendar
 router.get('/',
   async function(req, res) {
@@ -16,6 +34,11 @@ router.get('/',
         active: { calendar: true }
       }
       try {
+
+				// Get jobs tasks
+				let jobsList = await getTaskJobsList(req, res)
+				params.jobsList = jobsList
+
         // Get the events
         const events = await graph.getCalendarView(
           req.app.locals.msalClient,

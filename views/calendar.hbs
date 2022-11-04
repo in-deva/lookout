@@ -5,6 +5,11 @@
 	<label for="customers"> {{this}}</label><br>
 {{/each}}
 
+{{#each jobsList}}
+	<h5>{{this.title}}</h5>
+	<p>{{this.status}}</p>
+{{/each}}
+
 
 <h2 class="mb-3">Filters</h2>
 <form action="/calendar" method="GET" class="bg-light border"  style="padding: 20px">

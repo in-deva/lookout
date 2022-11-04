@@ -1,6 +1,8 @@
 const graph = require('../graph');
 const router = require('express-promise-router').default();
 
+// both currently unused (get jobs route changed to function in calendar)
+
 /* GET tasks */
 router.get('/',
   async function(req, res) {
@@ -36,6 +38,7 @@ router.get('/jobs',
 					req.app.locals.msalClient,
 					req.session.userId
 				)
+				console.log('hello from /tasks/jobs');
 				let jobs = []
 				tasks.value.forEach(task => {
 					jobs.push({
