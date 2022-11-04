@@ -17,6 +17,7 @@ const msal = require('@azure/msal-node');
 
 const authRouter = require('./routes/auth');
 const calendarRouter = require('./routes/calendar');
+const tasksRouter = require('./routes/tasks');
 var app = express();
 // <MsalInitSnippet>
 // In-memory storage of logged-in users
@@ -106,6 +107,8 @@ app.use('/', indexRouter);
 app.use('/auth', authRouter);
 app.use('/calendar', calendarRouter);
 app.use('/users', usersRouter);
+app.use('/tasks', tasksRouter);
+
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
