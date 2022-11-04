@@ -5,6 +5,26 @@ var graph = require('@microsoft/microsoft-graph-client');
 require('isomorphic-fetch');
 
 module.exports = {
+	// ------------------------------------------------------------------------ //
+
+	// <My Tasks snippet>
+	getAllTaskLists: async function(msalClient, userId) {
+		const client = getAuthenticatedClient(msalClient, userId);
+		return client
+		.api('/me/todo/lists')
+		// .header('Prefer', 'outlook.body-content-type="text"')
+		// .query({
+			// 	// startDateTime: encodeURIComponent(start),
+			// 	// endDateTime: encodeURIComponent(end)
+			// })
+			// .select('subject,organizer,start,end,categories,body')
+			.top(1000)
+			.get();
+	},
+		// </My Tasks snippet>
+
+		// ------------------------------------------------------------------------ //
+
   getUserDetails: async function(msalClient, userId) {
     const client = getAuthenticatedClient(msalClient, userId);
 
@@ -78,6 +98,9 @@ module.exports = {
       .post(newEvent);
   },
   // </CreateEventSnippet>
+
+
+
 
 };
 
