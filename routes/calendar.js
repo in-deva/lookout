@@ -35,7 +35,7 @@ router.get('/',
 					item.duration = Number(dayjs(item.end.dateTime).diff(dayjs(item.start.dateTime), 'hour', true).toFixed(1))
 					item.start.dateFormatted = String(dayjs(item.start.dateTime).format('DD/MM/YYYY HH:mm'))
 					item.end.dateFormatted = String(dayjs(item.end.dateTime).format('DD/MM/YYYY HH:mm'))
-					item.body.content = item.body.content.split('------------')[0]
+					item.body.content = item.body.content.split('------------')[0] // not working as intended
 				})
 
 				// Filters - pulling unique subjects and categories from ALL events
@@ -49,9 +49,10 @@ router.get('/',
 					let evFilterCategories = []
 					let evFilterCustomers = []
 					let evFilterJobs = []
-					typeof req.query.categories == 'string' ? req.query.categories = [req.query.categories] : null
-					typeof req.query.customers == 'string' ? req.query.customers = [req.query.customers] : null
-					typeof req.query.jobs == 'string' ? req.query.jobs = [req.query.jobs] : null
+					// replace with normal if statements
+					typeof req.query.categories == 'string' ? req.query.categories = [req.query.categories] : undefined
+					typeof req.query.customers == 'string' ? req.query.customers = [req.query.customers] : undefined
+					typeof req.query.jobs == 'string' ? req.query.jobs = [req.query.jobs] : undefined
 					events.value.forEach(ev => {
 						if (req.query.customers && req.query.customers.includes(ev.customer)) {evFilterCustomers.push(ev)}
 						if (req.query.jobs && req.query.jobs.includes(ev.job)) {evFilterJobs.push(ev)}
@@ -68,13 +69,21 @@ router.get('/',
 					if (req.query.customers) {evFiltered = evFiltered.filter(ev => evFilterCustomers.includes(ev))}
 					if (req.query.categories) {evFiltered = evFiltered.filter(ev => evFilterCategories.includes(ev))}
 					params.events = evFiltered
+					// allFilters in one array
+					let allFilters = []
+					if (req.query.jobs) {req.query.jobs.forEach(filter => allFilters.push(filter))}
+					if (req.query.customers) {req.query.customers.forEach(filter => allFilters.push(filter))}
+					if (req.query.categories) {req.query.categories.forEach(filter => allFilters.push(filter))}
+					params.allFilters = allFilters
 				} else params.events = events.value
 
+				// console.log('is the error above here orr')
 				// Parsing data to the calendar template
 					// Filters
 				params.customers = customers
 				params.jobs = jobs
 				params.categories = categories
+				// params.allFilters = req.query.categories.concat(req.query.customers, req.query.jobs) (defined above)
 					// Events overview
 				params.duration = params.events.map(ev => ev.duration).reduce((t, i) => t + i)
 				params.startDate = String(dayjs(params.events[0].start.dateTime).format('DD/MM/YY'))

@@ -1,5 +1,12 @@
 <h1 class="mb-3" style="padding-top: 20px">Calendar</h1>
 
+{{#each allFilters}}
+	<input type="checkbox" name="customers" value="{{this}}">
+	<label for="customers"> {{this}}</label><br>
+{{/each}}
+
+
+<h2 class="mb-3">Filters</h2>
 <form action="/calendar" method="GET" class="bg-light border"  style="padding: 20px">
 	<div class="container">
 	  <div class="row">
