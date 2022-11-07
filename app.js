@@ -18,6 +18,8 @@ const msal = require('@azure/msal-node');
 const authRouter = require('./routes/auth');
 const calendarRouter = require('./routes/calendar');
 const tasksRouter = require('./routes/tasks');
+const docsRouter = require('./routes/docs');
+
 var app = express();
 
 // <MsalInitSnippet>
@@ -89,14 +91,18 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 
 // <FormatDateSnippet>
+
 var hbs = require('hbs');
 var dateFns = require('date-fns');
+
 // Helper to format date/time sent by Graph
+
 // !! Can probably delete this...
 hbs.registerHelper('eventDateTime', function(dateTime) {
   const date = dateFns.parseISO(dateTime);
   return dateFns.format(date, 'M/d/yy h:mm a');
 });
+
 // </FormatDateSnippet>
 
 app.use(logger('dev'));
@@ -110,6 +116,8 @@ app.use('/auth', authRouter);
 app.use('/calendar', calendarRouter);
 app.use('/users', usersRouter);
 app.use('/tasks', tasksRouter);
+app.use('/docs', docsRouter);
+
 
 
 // catch 404 and forward to error handler
