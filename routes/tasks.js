@@ -1,33 +1,35 @@
 const graph = require('../graph');
 const router = require('express-promise-router').default();
+const { body, validationResult } = require('express-validator');
+const validator = require('validator');
 
 // both currently unused (get jobs route changed to function in calendar)
 
 /* GET tasks */
-router.get('/',
-  async function(req, res) {
-    if (!req.session.userId) {
-      // Redirect unauthenticated requests to home page
-      res.redirect('/');
-    } else {
-			try {
-				const tasks = await graph.getAllTaskLists(
-					req.app.locals.msalClient,
-					req.session.userId
-				)
-				console.log(tasks)
-			} catch {
-				req.flash('error_msg', {
-					message: 'Could not create event',
-					debug: JSON.stringify(error, Object.getOwnPropertyNames(error))
-				})
-			}
-    }
-  }
-);
+// router.get('/',
+//   async function(req, res) {
+//     if (!req.session.userId) {
+//       // Redirect unauthenticated requests to home page
+//       res.redirect('/');
+//     } else {
+// 			try {
+// 				const tasks = await graph.getAllTaskLists(
+// 					req.app.locals.msalClient,
+// 					req.session.userId
+// 				)
+// 				console.log(tasks)
+// 			} catch {
+// 				req.flash('error_msg', {
+// 					message: 'Could not create event',
+// 					debug: JSON.stringify(error, Object.getOwnPropertyNames(error))
+// 				})
+// 			}
+//     }
+//   }
+// );
 
 /* GET tasks/jobs */
-router.get('/jobs',
+router.get('/',//jobs',
   async function(req, res) {
     if (!req.session.userId) {
       // Redirect unauthenticated requests to home page
@@ -39,6 +41,7 @@ router.get('/jobs',
 					req.session.userId
 				)
 				console.log('hello from /tasks/jobs');
+				// console.log(tasks);
 				let jobs = []
 				tasks.value.forEach(task => {
 					jobs.push({
@@ -48,13 +51,15 @@ router.get('/jobs',
 						body: task.body
 					})
 				})
-				res.send(jobs)
+				console.log(jobs);
+				res.render('tasks', jobs)
 				}
-			catch (error) {
-				req.flash('error_msg', {
-					message: 'Could not create event',
-					debug: JSON.stringify(error, Object.getOwnPropertyNames(error))
-				})
+			catch (err) {
+				console.log(err)
+				// req.flash('error_msg', {
+				// 	message: 'Could not create event',
+				// 	debug: JSON.stringify(err, Object.getOwnPropertyNames(err))
+				// })
 			}
 		}
 	}

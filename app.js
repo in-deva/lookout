@@ -19,6 +19,7 @@ const authRouter = require('./routes/auth');
 const calendarRouter = require('./routes/calendar');
 const tasksRouter = require('./routes/tasks');
 var app = express();
+
 // <MsalInitSnippet>
 // In-memory storage of logged-in users
 // For demo purposes only, production apps should store
@@ -91,6 +92,7 @@ app.set('view engine', 'hbs');
 var hbs = require('hbs');
 var dateFns = require('date-fns');
 // Helper to format date/time sent by Graph
+// !! Can probably delete this...
 hbs.registerHelper('eventDateTime', function(dateTime) {
   const date = dateFns.parseISO(dateTime);
   return dateFns.format(date, 'M/d/yy h:mm a');
