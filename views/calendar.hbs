@@ -1,6 +1,6 @@
 <h1 class="mb-3" style="padding-top: 20px">Calendar</h1>
 
-{{#each allFilters}}
+<!-- {{#each allFilters}}
 	<input type="checkbox" name="customers" value="{{this}}">
 	<label for="customers"> {{this}}</label><br>
 {{/each}}
@@ -8,9 +8,7 @@
 {{#each jobsList}}
 	<h5>{{this.title}}</h2>
 	<p>{{this.status}}</p>
-{{/each}}
-
-
+{{/each}} -->
 
 <h2 class="mb-3">Filters</h2>
 <form action="/calendar" method="GET" class="bg-light border"  style="padding: 20px">
@@ -59,7 +57,7 @@
 <table class="table">
   <thead>
     <tr>
-      <th scope="col">Subject</th>
+      <!-- <th scope="col">Subject</th> -->
 			<th scope="col">Customer</th>
 			<th scope="col">Job</th>
 			<th scope="col">Duration</th>
@@ -72,7 +70,7 @@
   <tbody>
     {{#each events}}
       <tr>
-        <td>{{this.subject}}</td>
+        <!-- <td>{{this.subject}}</td> -->
 				<td>{{this.customer}}</td>
 				<td>{{this.job}}</td>
 				<td>{{this.duration}}</td>

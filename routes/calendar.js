@@ -53,7 +53,7 @@ router.get('/',
 				let subjects = []
 				let categories = []
 				events.value.forEach((item, i) => {
-					if (item.categories.includes('00 - Job')) {
+					if (item.categories.includes('00 - Job') || item.categories.includes('20 - Business Task')) {
 						subjects.push(item.subject)
 						item.customer = item.subject.split(' - ')[0] 												// are these lines not used?
 						item.job = item.subject.split(' - ')[1] 														// are these lines not used?
