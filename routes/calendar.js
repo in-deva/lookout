@@ -53,9 +53,11 @@ router.get('/',
 				let subjects = []
 				let categories = []
 				events.value.forEach((item, i) => {
-					subjects.push(item.subject)
-					item.customer = item.subject.split(' - ')[0]
-					item.job = item.subject.split(' - ')[1]
+					if (item.categories.includes('00 - Job')) {
+						subjects.push(item.subject)
+						item.customer = item.subject.split(' - ')[0] 												// are these lines not used?
+						item.job = item.subject.split(' - ')[1] 														// are these lines not used?
+					}
 					categories = [...new Set(categories.concat(item.categories))].sort()
 					item.duration = Number(dayjs(item.end.dateTime).diff(dayjs(item.start.dateTime), 'hour', true).toFixed(1))
 					item.start.dateFormatted = String(dayjs(item.start.dateTime).format('DD/MM/YYYY HH:mm'))
@@ -85,9 +87,6 @@ router.get('/',
 					let evFilterCustomers = []
 					let evFilterJobs = []
 					let evFilterStatuses = []
-
-					console.log(req.query.statuses)
-
 					// replace with normal if statements
 					typeof req.query.categories == 'string' ? req.query.categories = [req.query.categories] : undefined
 					typeof req.query.customers == 'string' ? req.query.customers = [req.query.customers] : undefined
@@ -121,9 +120,6 @@ router.get('/',
 					params.allFilters = allFilters
 				} else params.events = events.value
 
-				console.log('here now')
-
-				// console.log('is the error above here orr')
 				// Parsing data to the calendar template
 					// Filters
 				params.customers = customers
