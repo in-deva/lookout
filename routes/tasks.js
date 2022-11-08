@@ -15,14 +15,17 @@ router.get('/jobs',
 					req.app.locals.msalClient,
 					req.session.userId
 				)
+				console.log(tasksJobList)
 				let jobs = []
 				tasksJobList.value.forEach(task => {
 					jobs.push({
 						title: task.title,
+						importance: task.importance,
+						categories: task.categories,
+						dateCreated: task.createdDateTime,
 						customer: task.title.includes(' - ') ? task.title.split(' - ')[0] : '',
 						job: task.title.includes(' - ') ? task.title.split(' - ')[1] : '',
 						status: task.status.replace(/([a-z])([A-Z])/g, `$1 $2`).replace(/^\w/, c => c.toUpperCase()),
-						categories: task.categories,
 						body: task.body.content,
 						other: !task.title.includes(' - ') ? task.title : '',
 					})
