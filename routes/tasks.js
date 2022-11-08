@@ -41,18 +41,17 @@ router.get('/',//jobs',
 					req.session.userId
 				)
 				console.log('hello from /tasks/jobs');
-				// console.log(tasks);
 				let jobs = []
 				tasks.value.forEach(task => {
 					jobs.push({
 						title: task.title,
 						status: task.status,
 						categories: task.categories,
-						body: task.body
+						body: task.body.content
 					})
 				})
-				console.log(jobs);
-				res.render('tasks', jobs)
+				let params = { jobs	}
+				res.render('tasks', params)
 				}
 			catch (err) {
 				console.log(err)
