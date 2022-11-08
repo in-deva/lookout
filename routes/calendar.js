@@ -120,6 +120,23 @@ router.get('/',
 					params.allFilters = allFilters
 				} else params.events = events.value
 
+				// Splitting jobs list on status
+				// console.log(params.events)
+				//
+				// params.inProgress = []
+				// params.notStarted = []
+				// params.completed = []
+				// params.events.forEach(ev => {
+				// 	if (ev.currentStatus == 'inProgress') {params.inProgress.push(ev)}
+				// 	if (ev.currentStatus == 'notStarted') {params.notStarted.push(ev)}
+				// 	if (ev.currentStatus == 'completed') {params.completed.push(ev)}
+				// })
+				// // console.log(params.completed)
+				// params.events.forEach(ev => {
+				// 	console.log(`${ev.currentStatus} - ${ev.job}`);
+				// })
+
+
 				// Parsing data to the calendar template
 					// Filters
 				params.customers = customers
@@ -129,10 +146,12 @@ router.get('/',
 				// params.jobsList // defined above (from tasks/job list - effectively same as 'jobs', could maybe remove)
 				// params.statuses = defined above
 					// Events overview
-				params.duration = params.events.map(ev => ev.duration).reduce((t, i) => t + i)
+				params.duration = params.events.map(ev => ev.duration).reduce((t, i) => t + i).toFixed(2)
 				params.startDate = String(dayjs(params.events[0].start.dateTime).format('DD/MM/YY'))
 				params.latestDate = String(dayjs(params.events[params.events.length-1].end.dateTime).format('DD/MM/YY'))
 				// params.events defined above
+
+
 
       } catch (err) {
 				console.log('error')
