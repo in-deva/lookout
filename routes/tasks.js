@@ -4,7 +4,7 @@ const { body, validationResult } = require('express-validator');
 const validator = require('validator');
 
 /* GET tasks/jobs */
-router.get('/',//jobs',
+router.get('/jobs',
   async function(req, res) {
     if (!req.session.userId) {
       // Redirect unauthenticated requests to home page
