@@ -4,19 +4,23 @@
   <thead>
     <tr>
       <!-- <th scope="col">Subject</th> -->
-			<th scope="col">Title</th>
+			<th scope="col">Customer</th>
+			<th scope="col">Job</th>
 			<th scope="col">Status</th>
 			<th scope="col">Description</th>
       <th scope="col">Categories</th>
+			<th scope="col">Other</th>
     </tr>
   </thead>
   <tbody>
     {{#each jobs}}
       <tr>
-				<td>{{this.title}}</td>
+				<td>{{this.customer}}</td>
+				<td>{{this.job}}</td>
 				<td>{{this.status}}</td>
 				<td>{{this.body}}</td>
         <td>{{this.categories}}</td>
+				<td>{{this.other}}</td>
       </tr>
     {{/each}}
   </tbody>
