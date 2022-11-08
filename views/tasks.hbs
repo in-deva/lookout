@@ -1,9 +1,25 @@
 <h1 class="mb-3" style="padding-top: 20px">Jobs</h1>
 
-{{#each jobs}}
-	<h5>{{this.title}}</h2>
-	<p>{{this.status}}</p>
-	<p>{{this.body}}</p>
-{{/each}}
+<table class="table">
+  <thead>
+    <tr>
+      <!-- <th scope="col">Subject</th> -->
+			<th scope="col">Title</th>
+			<th scope="col">Status</th>
+			<th scope="col">Description</th>
+      <th scope="col">Categories</th>
+    </tr>
+  </thead>
+  <tbody>
+    {{#each jobs}}
+      <tr>
+				<td>{{this.title}}</td>
+				<td>{{this.status}}</td>
+				<td>{{this.body}}</td>
+        <td>{{this.categories}}</td>
+      </tr>
+    {{/each}}
+  </tbody>
+</table>
 
 <p style="padding: 50px">
