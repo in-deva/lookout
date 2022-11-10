@@ -33,13 +33,24 @@
 					<label for="jobs"> {{this}}</label><br>
 				{{/each}}
 	    </div>
-	    <div class="col">
+	    <!-- <div class="col">
 				<h2>Categories</h2>
 				{{#each categories}}
 					<input type="checkbox" name="categories" value="{{this}}">
 					<label for="categories"> {{this}}</label><br>
 				{{/each}}
-	    </div>
+	    </div> -->
+			<div class="col">
+				<h2>Categories</h2>
+				{{#each processedCategories}}
+					<input type="checkbox" name="categories" value="{{this.raw}}">
+					<label for="categories"> {{this.title}}</label><br>
+					{{#each this.subCategories}}
+						<input type="checkbox" name="categories" value="{{this.raw}}" style="margin-left: 20px;">
+						<label for="categories"> {{this.title}}</label><br>
+					{{/each}}
+				{{/each}}
+			</div>
 	  </div>
 	</div>
 <input type="submit" value="Submit">
