@@ -104,12 +104,28 @@ router.get('/',
 					categoriesProcessed.push(processed)
 				})
 
-				console.log(categoriesProcessed)
-
 				// separating main categories from sub-categories
+				let categoriesMain = []
+				categoriesProcessed.forEach(cat => {
+					if (cat.grouping == 'main') {
+						cat.subCategories = []
+						categoriesMain.push(cat)
+					}
+				})
 
 				// adding sub-categories to main-categories objects
+				categoriesProcessed.forEach(cat => {
+					if (cat.grouping == 'sub') {
+						categoriesMain.forEach(mainCat => {
+							if (cat.codeGroup == mainCat.codeGroup) {
+								mainCat.subCategories.push(cat)
+							}
+						})
+						// random dev note - in this instance, would find and re-find be more efficient? I only want one match, so forEach feels inefficient
+					}
+				})
 
+				params.processedCategories = categoriesMain
 
 
 
@@ -174,6 +190,7 @@ router.get('/',
 				params.customers = customers
 				params.jobs = jobs
 				params.categories = categories
+				// params.processedCategories = defined above
 				// params.allFilters = req.query.categories.concat(req.query.customers, req.query.jobs) (defined above)
 				// params.jobsList // defined above (from tasks/job list - effectively same as 'jobs', could maybe remove)
 				// params.statuses = defined above
