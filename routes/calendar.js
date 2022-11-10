@@ -96,7 +96,7 @@ router.get('/',
 					processed.codeGroup = Math.floor(processed.code/10)
 					processed.codeSub = processed.code - (processed.codeGroup*10)
 					if (processed.codeSub == 0) {
-						delete processed.codeSub
+						// delete processed.codeSub
 						processed.grouping = 'main'
 					} else {
 						processed.grouping = 'sub'
