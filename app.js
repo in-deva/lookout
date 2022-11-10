@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');

@@ -1,6 +1,3 @@
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 var graph = require('@microsoft/microsoft-graph-client');
 require('isomorphic-fetch');
 
