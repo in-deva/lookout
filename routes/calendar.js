@@ -89,7 +89,7 @@ router.get('/',
 				// Initial processing
 				let categoriesProcessed = []
 				categories.forEach(cat => {
-					processed = {}
+					let processed = {}
 					processed.raw = cat
 					processed.code = cat.split(' - ')[0]
 					processed.title = cat.split(' - ')[1]
