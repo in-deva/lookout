@@ -80,7 +80,40 @@ router.get('/',
 				const customers = [...new Set(subjects.map(subject => subject.split(' - ')[0]))].sort()
 				const jobs = [...new Set(subjects.map(subject => subject.split(' - ')[1]))].sort()
 
-				// processing filters from the query (if exists)
+
+
+
+
+
+				// Processing categories
+				// Initial processing
+				let categoriesProcessed = []
+				categories.forEach(cat => {
+					processed = {}
+					processed.raw = cat
+					processed.code = cat.split(' - ')[0]
+					processed.title = cat.split(' - ')[1]
+					processed.codeGroup = Math.floor(processed.code/10)
+					processed.codeSub = processed.code - (processed.codeGroup*10)
+					if (processed.codeSub == 0) {
+						delete processed.codeSub
+						processed.grouping = 'main'
+					} else {
+						processed.grouping = 'sub'
+					}
+					categoriesProcessed.push(processed)
+				})
+
+				console.log(categoriesProcessed)
+
+				// separating main categories from sub-categories
+
+				// adding sub-categories to main-categories objects
+
+
+
+
+				// processing filters from the query (if exisjs ts)
 					// note: categories ADDs to the filters, not checks if all filters are met by an events categories
 				if (Object.entries(req.query).length) {
 					let evFilterCategories = []
@@ -136,7 +169,6 @@ router.get('/',
 				// 	console.log(`${ev.currentStatus} - ${ev.job}`);
 				// })
 
-
 				// Parsing data to the calendar template
 					// Filters
 				params.customers = customers
@@ -151,8 +183,6 @@ router.get('/',
 				params.latestDate = String(dayjs(params.events[params.events.length-1].end.dateTime).format('DD/MM/YY'))
 				// params.events defined above
 
-
-
       } catch (err) {
 				console.log('error')
         req.flash('error_msg', {
@@ -165,98 +195,100 @@ router.get('/',
   }
 )
 
+module.exports = router;
+
+
 // ------------------------------ get calendar end *untouched below* ------------------------------------ //
 
-/* GET /calendar/new */
-router.get('/new',
-  function(req, res) {
-    if (!req.session.userId) {
-      // Redirect unauthenticated requests to home page
-      res.redirect('/');
-    } else {
-      res.locals.newEvent = {};
-      res.render('newevent');
-    }
-  }
-);
-// </GetEventFormSnippet>
-// <PostEventFormSnippet>
-/* POST /calendar/new */
-router.post('/new', [
-  body('ev-subject').escape(),
-  // Custom sanitizer converts ;-delimited string
-  // to an array of strings
-  body('ev-attendees').customSanitizer(value => {
-    return value.split(';');
-  // Custom validator to make sure each
-  // entry is an email address
-  }).custom(value => {
-    value.forEach(element => {
-      if (!validator.isEmail(element)) {
-        throw new Error('Invalid email address');
-      }
-    });
-
-    return true;
-  }),
-  // Ensure start and end are ISO 8601 date-time values
-  body('ev-start').isISO8601(),
-  body('ev-end').isISO8601(),
-  body('ev-body').escape()
-], async function(req, res) {
-  if (!req.session.userId) {
-    // Redirect unauthenticated requests to home page
-    res.redirect('/');
-  } else {
-    // Build an object from the form values
-    const formData = {
-      subject: req.body['ev-subject'],
-      attendees: req.body['ev-attendees'],
-      start: req.body['ev-start'],
-      end: req.body['ev-end'],
-      body: req.body['ev-body']
-    };
-
-    // Check if there are any errors with the form values
-    const formErrors = validationResult(req);
-    if (!formErrors.isEmpty()) {
-
-      let invalidFields = '';
-      formErrors.array().forEach(error => {
-        invalidFields += `${error.param.slice(3, error.param.length)},`;
-      });
-
-      // Preserve the user's input when re-rendering the form
-      // Convert the attendees array back to a string
-      formData.attendees = formData.attendees.join(';');
-      return res.render('newevent', {
-        newEvent: formData,
-        error: [{ message: `Invalid input in the following fields: ${invalidFields}` }]
-      });
-    }
-
-    // Get the user
-    const user = req.app.locals.users[req.session.userId];
-
-    // Create the event
-    try {
-      await graph.createEvent(
-        req.app.locals.msalClient,
-        req.session.userId,
-        formData,
-        user.timeZone
-      );
-    } catch (error) {
-      req.flash('error_msg', {
-        message: 'Could not create event',
-        debug: JSON.stringify(error, Object.getOwnPropertyNames(error))
-      });
-    }
-
-    // Redirect back to the calendar view
-    return res.redirect('/calendar');
-  }
-}
-);
-// </PostEventFormSnippet>
-module.exports = router;
+// /* GET /calendar/new */
+// router.get('/new',
+//   function(req, res) {
+//     if (!req.session.userId) {
+//       // Redirect unauthenticated requests to home page
+//       res.redirect('/');
+//     } else {
+//       res.locals.newEvent = {};
+//       res.render('newevent');
+//     }
+//   }
+// );
+// // </GetEventFormSnippet>
+// // <PostEventFormSnippet>
+// /* POST /calendar/new */
+// router.post('/new', [
+//   body('ev-subject').escape(),
+//   // Custom sanitizer converts ;-delimited string
+//   // to an array of strings
+//   body('ev-attendees').customSanitizer(value => {
+//     return value.split(';');
+//   // Custom validator to make sure each
+//   // entry is an email address
+//   }).custom(value => {
+//     value.forEach(element => {
+//       if (!validator.isEmail(element)) {
+//         throw new Error('Invalid email address');
+//       }
+//     });
+//
+//     return true;
+//   }),
+//   // Ensure start and end are ISO 8601 date-time values
+//   body('ev-start').isISO8601(),
+//   body('ev-end').isISO8601(),
+//   body('ev-body').escape()
+// ], async function(req, res) {
+//   if (!req.session.userId) {
+//     // Redirect unauthenticated requests to home page
+//     res.redirect('/');
+//   } else {
+//     // Build an object from the form values
+//     const formData = {
+//       subject: req.body['ev-subject'],
+//       attendees: req.body['ev-attendees'],
+//       start: req.body['ev-start'],
+//       end: req.body['ev-end'],
+//       body: req.body['ev-body']
+//     };
+//
+//     // Check if there are any errors with the form values
+//     const formErrors = validationResult(req);
+//     if (!formErrors.isEmpty()) {
+//
+//       let invalidFields = '';
+//       formErrors.array().forEach(error => {
+//         invalidFields += `${error.param.slice(3, error.param.length)},`;
+//       });
+//
+//       // Preserve the user's input when re-rendering the form
+//       // Convert the attendees array back to a string
+//       formData.attendees = formData.attendees.join(';');
+//       return res.render('newevent', {
+//         newEvent: formData,
+//         error: [{ message: `Invalid input in the following fields: ${invalidFields}` }]
+//       });
+//     }
+//
+//     // Get the user
+//     const user = req.app.locals.users[req.session.userId];
+//
+//     // Create the event
+//     try {
+//       await graph.createEvent(
+//         req.app.locals.msalClient,
+//         req.session.userId,
+//         formData,
+//         user.timeZone
+//       );
+//     } catch (error) {
+//       req.flash('error_msg', {
+//         message: 'Could not create event',
+//         debug: JSON.stringify(error, Object.getOwnPropertyNames(error))
+//       });
+//     }
+//
+//     // Redirect back to the calendar view
+//     return res.redirect('/calendar');
+//   }
+// }
+// );
+// // </PostEventFormSnippet>
