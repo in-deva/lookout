@@ -89,10 +89,10 @@ router.get('/',
           completed: [],
           notStarted: [],
         }
-        params.jobsList.forEach(job => {
-    	if (job.status == 'inProgress') {jobsByCurrentStatus.inProgress.push(job.name)}
-			  if (job.status == 'completed') {jobsByCurrentStatus.completed.push(job.name)}
-			  if (job.status == 'notStarted') {jobsByCurrentStatus.notStarted.push(job.name)}
+        jobsList.forEach(job => {
+			if (job.status == 'inProgress') {jobsByCurrentStatus.inProgress.push(job.name)}
+			if (job.status == 'completed') {jobsByCurrentStatus.completed.push(job.name)}
+			if (job.status == 'notStarted') {jobsByCurrentStatus.notStarted.push(job.name)}
         })
 
         // Processing categories
