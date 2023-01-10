@@ -94,11 +94,6 @@ router.get('/',
 			  if (job.status == 'completed') {jobsByCurrentStatus.completed.push(job.name)}
 			  if (job.status == 'notStarted') {jobsByCurrentStatus.notStarted.push(job.name)}
         })
-		
-		console.log(jobsByCurrentStatus)
-
-		params.jobsByCurrentStatus = jobsByCurrentStatus
-
 
         // Processing categories
         // Initial processing
@@ -200,7 +195,8 @@ router.get('/',
         // Parsing data to the calendar template
         // Filters
         params.customers = customers
-        params.jobs = jobs
+        //params.jobs = jobs // replaced with jobs by current status
+		params.jobsByCurrentStatus = jobsByCurrentStatus
         params.categories = categories
         // params.processedCategories = defined above
         // params.allFilters = req.query.categories.concat(req.query.customers, req.query.jobs) (defined above)

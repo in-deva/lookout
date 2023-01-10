@@ -27,10 +27,21 @@
 					<input type="checkbox" name="statuses" value="{{this}}">
 					<label for="statuses"> {{this}}</label><br>
 				{{/each}}
-				<h2>Jobs</h2>
-				{{#each jobs}}
-					<input type="checkbox" name="jobs" value="{{this}}">
-					<label for="jobs"> {{this}}</label><br>
+				<h2>Jobs (By Status)</h2>
+				<h3>In Progress</h3>
+				{{#each jobsByCurrentStatus.inProgress}}
+						<input type="checkbox" name="jobs" value="{{this}}">
+						<label for="jobs"> {{this}}</label><br>
+				{{/each}}
+				<h3>Not Started</h3>
+				{{#each jobsByCurrentStatus.notStarted}}
+						<input type="checkbox" name="jobs" value="{{this}}">
+						<label for="jobs"> {{this}}</label><br>
+				{{/each}}
+				<h3>Completed</h3>
+				{{#each jobsByCurrentStatus.completed}}
+						<input type="checkbox" name="jobs" value="{{this}}">
+						<label for="jobs"> {{this}}</label><br>
 				{{/each}}
 	    </div>
 	    <!-- <div class="col">
