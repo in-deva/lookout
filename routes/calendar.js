@@ -85,9 +85,9 @@ router.get('/',
 
         // Jobs - sorting by most recent status
         let jobsByCurrentStatus = {
-          inProgress: [],
-          completed: [],
-          notStarted: [],
+          inProgress: [''],
+          completed: [''],
+          notStarted: [''],
         }
         jobsList.forEach(job => {
 			if (job.status == 'inProgress') {jobsByCurrentStatus.inProgress.push(job.name)}
